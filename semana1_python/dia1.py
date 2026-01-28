@@ -68,7 +68,7 @@ if dinero >= 10000:
     print("Puedes invertir")
 else:
     print("Aún necesitas ahorrar más")
-"""
+
 #Ejercicio 1
 #hecho por mi
 
@@ -127,4 +127,84 @@ elif dinero < 100:
     print(f"{nombress}: Acceso denegado por fondos")
 else:
     print(f"{nombress}: Acceso autorizado. Bienvenido al sistema")
+"""
+#dia 3
+#ejemplos
+"""
+for i in range(5):
+    print(i)
 
+range(inicio, fin, paso)
+range(0, 5)      # 0 1 2 3 4
+range(1, 6)      # 1 2 3 4 5
+range(0, 10, 2)  # 0 2 4 6 8
+
+for i in range(1, 6):
+    print(f"Repetición número {i}")
+
+nombre = "Fabian"
+
+for letra in nombre:
+    print(letra)
+
+for i in range(1, 11):
+    if i % 2 == 0:
+        print(f"{i} es par")
+
+"""
+#ejercicio 1
+"""
+for i in range (1,11):
+    if i% 2== 0:
+        print(f"{i} es par")
+    else:
+        print(f"{i} es impar")
+"""
+
+#ejercicio 2
+"""
+numero = int(input("ingresa un numero: "))
+
+for i in range (1,11):
+    print(f"{numero} x {i} = {numero * i}")
+"""
+
+#ejercicio 3
+"""
+Pida:
+
+nombre
+
+cuántas calificaciones va a ingresar
+
+Use un for para:
+
+pedir cada calificación
+
+acumular la suma
+
+Al final:
+
+calcule el promedio
+
+muestre si aprobó (≥70) o reprobó
+
+nombre = input("dime tu nombre: ")
+
+calificacion = int(input("cuantas calificaciones quieres ingresar: "))
+
+suma= 0
+
+for i in range (1, calificacion + 1):
+    print (f"calificacion {i}")
+    calificaciones= int(input("ingresa calificacion: "))
+    suma+= calificaciones
+
+promedio = suma/calificacion
+print(f"el promedio de {nombre} es igual a {promedio}")
+
+if promedio >= 70:
+    print(f"{nombre} aprobaste")
+else:
+    print(f"{nombre} reprobaste")
+"""
