@@ -154,6 +154,10 @@ for i in range(1, 11):
 """
 #ejercicio 1
 """
+Usa un for
+Imprime los números del 1 al 10
+Muestra si el número es par o impar
+
 for i in range (1,11):
     if i% 2== 0:
         print(f"{i} es par")
@@ -163,6 +167,10 @@ for i in range (1,11):
 
 #ejercicio 2
 """
+Pide un número al usuario
+Usa un for
+Imprime la tabla de multiplicar de ese número del 1 al 10
+
 numero = int(input("ingresa un numero: "))
 
 for i in range (1,11):
