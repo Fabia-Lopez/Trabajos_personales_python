@@ -216,3 +216,125 @@ if promedio >= 70:
 else:
     print(f"{nombre} reprobaste")
 """
+#dia 4
+#ejemplos
+"""
+numeros = [1, 2, 3, 4, 5]
+nombres = ["Ana", "Luis", "Fabian"]
+mezcla = [10, "hola", 3.5]
+
+print(nombres[0])  # Ana
+print(nombres[2])  # Fabian
+
+calificaciones = [80, 90, 75]
+
+for calificacion in calificaciones:
+    print(calificacion)
+
+calificaciones = []
+calificaciones.append(90)
+calificaciones.append(85)
+
+print(len(calificaciones))
+
+suma = 0
+
+for c in calificaciones:
+    suma += c
+
+promedio = suma / len(calificaciones)
+
+#ejercicio 1
+
+Crea una lista vacía
+Pide 5 números al usuario
+Guárdalos en la lista
+Imprime la lista completa
+
+lista = []
+
+for i in range(5):
+    numero = int(input("Ingresa un número: "))
+    lista.append(numero)
+
+print(lista)
+
+
+#ejercicio 2
+Crea una lista de calificaciones
+Recorre la lista con for
+Imprime solo las calificaciones mayores o iguales a 70
+
+
+calificaciones=[22,0,73,5,100]
+
+for calificacion in calificaciones:
+    if calificacion >= 70:
+        print(f"esta calificacion es mayor o igual a 70: {calificacion}")
+
+
+
+#ejercicio 3
+Pida:
+
+nombre
+
+cuántas calificaciones va a ingresar
+
+Use una lista para:
+
+guardar todas las calificaciones
+
+Al final:
+
+calcule el promedio
+
+diga si aprobó o reprobó
+
+
+nombre= input("dime tu nombre: ")
+calificaciones = int(input("cuantas calificaciones quieres ingresar: "))
+
+calificacion = []
+suma=0
+promedio =0
+
+for i in range (1, calificaciones+1):
+    grade = int(input("ingresa calificacion: "))
+    calificacion.append(grade)
+    suma+=grade
+print(calificacion)
+promedio= suma/ len(calificacion)
+
+if promedio > 59:
+    print(f"{nombre} aprobaste con un promedio de {promedio}")
+else:
+    print(f"{nombre} reprobaste con un promedio de {promedio}")
+
+
+#hecho por chat
+
+nombre = input("Dime tu nombre: ")
+cantidad = int(input("¿Cuántas calificaciones vas a ingresar? "))
+
+calificaciones = []
+
+for i in range(cantidad):
+    nota = int(input(f"Ingresa la calificación {i + 1}: "))
+    calificaciones.append(nota)
+
+suma = 0
+for nota in calificaciones:
+    suma += nota
+
+promedio = suma / len(calificaciones)
+
+print(f"Calificaciones ingresadas: {calificaciones}")
+print(f"Promedio: {promedio}")
+
+if promedio >= 70:
+    print(f"{nombre}, aprobaste")
+else:
+    print(f"{nombre}, reprobaste")
+
+"""
