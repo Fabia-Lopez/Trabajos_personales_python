@@ -338,3 +338,128 @@ else:
     print(f"{nombre}, reprobaste")
 
 """
+#dia 5
+#ejemplos
+"""
+contador = 1
+
+while contador <= 5:
+    print(contador)
+    contador += 1
+
+"""
+#ejercicio 1
+"""
+Empiece en 1
+Use while
+Imprima números hasta el 10
+
+contador =1
+
+while contador <= 10:
+    print(contador)
+    contador +=1
+"""
+
+#ejercicio 2
+"""
+Pida números al usuario
+Siga pidiendo hasta que escriba 0
+Al final muestre:
+
+cuántos números ingresó
+
+la suma total
+
+numero = int(input("Ingresa un numero: "))
+contador= 0
+suma=0
+
+while numero !=0:
+    print(f"Ingresaste el numero: {numero}")
+    contador += 1
+    suma += numero
+    numero = int(input("ingresa otro numero: "))
+
+print(f"ingresaste {contador} numeros")
+print(f"la suma de todos los numeros fue de: {suma}")
+"""
+#ejercicio 3
+"""
+Simula un menú de cajero simple:
+1. Consultar saldo
+2. Depositar
+3. Retirar
+4. Salir
+
+Usa while para que el menú se repita
+El saldo inicial es 1000
+El programa termina cuando el usuario elige Salir
+
+
+print("consultar saldo")
+print("depositar")
+print("retirar")
+print("salir")
+
+opcion= input("que deseas hacer: ")
+
+
+
+saldo= 1000
+
+while opcion != "salir":
+    if opcion == "consultar saldo":
+        print(f"tienes {saldo} de saldo")
+    elif opcion == "depositar":
+        deposito= int(input("cuanto deseas depositar: "))
+        saldo += deposito
+        print(f"tienes {saldo} de saldo")
+    elif opcion == "retirar":
+        retiro= int(input("cuanto desea retirar: "))
+        if retiro <= saldo:
+            saldo -= retiro
+            print(f"tienes {saldo} de saldo")
+        else:
+            print("saldo insuficiente")
+    else:
+        print("no existe esta opcion")
+        
+    opcion= input("que otra operacion desea hacer: (consultar saldo); (depositar); (retirar); (salir): ")
+
+print("operaciones terminadas")
+
+#como lo hizo el chat
+saldo = 1000
+opcion = ""
+
+while opcion != "salir":
+    print("\n1. consultar saldo")
+    print("2. depositar")
+    print("3. retirar")
+    print("4. salir")
+
+    opcion = input("Elige una opción: ").lower()
+
+    if opcion == "consultar saldo":
+        print(f"Tu saldo es: {saldo}")
+
+    elif opcion == "depositar":
+        deposito = int(input("Monto a depositar: "))
+        saldo += deposito
+        print(f"Nuevo saldo: {saldo}")
+
+    elif opcion == "retirar":
+        retiro = int(input("Monto a retirar: "))
+        if retiro <= saldo:
+            saldo -= retiro
+            print(f"Nuevo saldo: {saldo}")
+        else:
+            print("Saldo insuficiente")
+
+    elif opcion == "salir":
+        print("Gracias por usar el cajero")
+
+    else:
+        print("Opción no válida")
+"""
