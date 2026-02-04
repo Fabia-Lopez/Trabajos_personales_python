@@ -104,4 +104,118 @@ def menu():
             print("Opción no válida, intenta de nuevo.")
 
 menu()
+
+#dia 2
+#ejemplos
+def sumar_lista(numeros):
+    suma = 0
+    for n in numeros:
+        suma += n
+    return suma
+
+#ejercicio 1
+Crea una función llamada calcular_promedio(lista) que:
+Reciba una lista de números
+Regrese el promedio
+def calcular_promedio(lista):
+    if len(lista) == 0:
+        return 0
+    
+    suma = 0
+    for i in lista:
+        suma += i
+    return suma / len(lista)
+
+#ejercicio 2
+Crea una función llamada mayor_y_menor(lista) que:
+Reciba una lista
+Regrese el número mayor y el número menor
+
+def mayor_menor(lista):
+    mayor= lista[0]
+    menor = lista[0]
+
+    for num in lista:
+        if num > mayor:
+            mayor = num
+            
+        if num< menor:
+            menor = num
+            
+    return mayor, menor
+
+#ejercicio 3
+Pida cuántas calificaciones va a ingresar
+Guarde todas en una lista
+Cree funciones para:
+
+promedio
+
+mayor
+
+menor
+
+contar cuántas son aprobatorias (>=70)
+
+contar cuántas son reprobatorias (<70)
+
+Al final debe imprimir un reporte así:
+📊 REPORTE FINAL
+Promedio: 78.5
+Mayor: 100
+Menor: 45
+Aprobados: 4
+Reprobados: 2
+
+calificaciones = int(input("cuantas calificaciones deseas ingresar: "))
+lista=[]
+
+for n in range(calificaciones):
+    calificacion=int(input("ingresa una calificacion: "))
+    lista.append(calificacion)
+
+
+def calcular_promedio(lista):
+    if len(lista) == 0:
+        return 0
+    
+    suma = 0
+    for i in lista:
+        suma += i
+    return suma / len(lista)
+
+def mayor(lista):
+    mayor= lista[0]
+    for num in lista:
+        if num > mayor:
+            mayor = num
+    return mayor
+
+def menor(lista):
+    menor = lista[0]
+    for num in lista:
+        if num< menor:
+            menor = num
+    return menor
+
+def contar_aprobadas(lista):
+    aprobadas=[]
+    for n in lista:
+        if n >=70:
+            aprobadas.append(n)
+    return len(aprobadas)
+
+def contar_reprobadas(lista):
+    reprobadas=[]
+    for n in lista:
+        if n < 70:
+            reprobadas.append(n)
+    return len(reprobadas)
+
+print("informa final")
+print(f"el promedio: {calcular_promedio(lista)}")
+print(f"el mayor: {mayor(lista)}")
+print(f"el menor: {menor(lista)}")
+print(f"aprobadas: {contar_aprobadas(lista)}")
+print(f"Reprobadas: {contar_reprobadas(lista)}")
 """
