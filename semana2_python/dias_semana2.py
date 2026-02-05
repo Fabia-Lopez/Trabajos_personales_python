@@ -160,7 +160,7 @@ contar cuántas son aprobatorias (>=70)
 contar cuántas son reprobatorias (<70)
 
 Al final debe imprimir un reporte así:
-📊 REPORTE FINAL
+REPORTE FINAL
 Promedio: 78.5
 Mayor: 100
 Menor: 45
@@ -218,4 +218,99 @@ print(f"el mayor: {mayor(lista)}")
 print(f"el menor: {menor(lista)}")
 print(f"aprobadas: {contar_aprobadas(lista)}")
 print(f"Reprobadas: {contar_reprobadas(lista)}")
+
+#dia 3
+#ejemplos
+persona = {
+    "nombre": "Fabian",
+    "edad": 19,
+    "carrera": "Ingeniería en Sistemas"
+}
+
+#acceder a un valor
+print(persona["nombre"])
+#agregar o modificar
+persona["edad"] = 20
+
+#recorrer claves y valores
+for clave, valor in persona.items():
+    print(clave, valor)
+
+#ejercicio 1
+Crea un diccionario llamado persona que contenga:
+
+nombre
+
+edad
+
+ciudad
+
+Luego imprime todo así:
+Nombre: Fabian
+Edad: 19
+Ciudad: Hermosillo
+
+
+persona={"nombre": "fabian", "edad": 19, "ciudad":"Hermosillo"}
+
+for clave, valor in persona.items():
+    print(f"{clave}: {valor}")
+
+#ejercicio 2
+Pida al usuario:
+
+nombre
+
+edad
+
+carrera
+
+Guarde esos datos en un diccionario llamado alumno
+
+Imprima el diccionario completo
+
+
+print("ingresa los datos del alumno")
+nombre=input("ingresa el nombre: ")
+edad=int(input("edad: "))
+carrera=input("carrera: ")
+
+alumno={"nombre": nombre, "edad": edad,"carrera": carrera}
+
+for clave, valor in alumno.items():
+    print(f"{clave}: {valor}")
+
+#ejercicio 3
+Vas a hacer un registro de alumnos.
+
+Pregunta cuántos alumnos se van a registrar
+Por cada alumno pide:
+
+nombre
+
+edad
+
+carrera
+
+Guarda cada alumno como un diccionario
+Guarda todos los diccionarios dentro de una lista
+
+Ejemplo:
+
+cantidad_alumnos= int(input("cuantos alumnos ingresaras: "))
+alumnos=[]
+
+#metodo para guardas los valores a un diccionario y tambien en una lista
+for i in range(cantidad_alumnos):
+    nombre=input(f"ingresa el nombre del alumno {i+1}: ")
+    edad=int(input(f"edad del alumno {i+1}: "))
+    carrera=input(f"carrera del alumno {i+1}: ")
+
+    alumno={"nombre": nombre, "edad": edad,"carrera": carrera}
+    alumnos.append(alumno)
+
+#imprimir los valores de la lista en base al diccionario
+for i, alumno in enumerate(alumnos):
+    print(f"Alumno {i+1}: {alumno['nombre']} - {alumno['edad']} años - {alumno['carrera']}")
+
 """
