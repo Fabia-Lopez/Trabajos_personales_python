@@ -314,3 +314,123 @@ for i, alumno in enumerate(alumnos):
     print(f"Alumno {i+1}: {alumno['nombre']} - {alumno['edad']} años - {alumno['carrera']}")
 
 """
+
+#dia 4
+#ejercicio 1
+"""
+Contar vocales
+
+Pide al usuario una palabra y cuenta cuántas vocales tiene.
+
+Requisitos:
+
+Usa for
+
+Usa un contador
+
+Convierte el texto a minúsculas con .lower()
+
+Ejemplo:
+Entrada: "Computadora"
+Salida: Tiene 5 vocales
+
+contador = 0
+palabra = input("Ingresa una palabra: ").lower()
+
+for letra in palabra:
+    if letra in "aeiou":
+        contador += 1
+
+print(f"La palabra: {palabra}")
+print(f"contiene: {contador} vocales")
+
+
+#ejercicio 2
+Contar espacios y letras
+
+Pide al usuario una frase y cuenta:
+
+cuántos espacios tiene
+
+cuántas letras tiene (sin contar espacios)
+
+Requisitos:
+
+Usa for
+
+Usa contadores
+
+Ignora espacios para contar letras
+Ejemplo:
+Entrada: "hola mundo"
+Salida:
+Espacios: 1
+Letras: 9
+
+
+letras=0
+espacio=0
+palabra=input("ingresa una palabra: ").lower()
+
+for i in palabra:
+    if i in " ":
+        espacio+=1
+    else:
+        letras+=1
+
+print(f"espacios: {espacio}")
+print(f"Letras: {letras}")
+
+
+#ejercicio 3
+Pide al usuario una contraseña y revisa si cumple estas reglas:
+
+Debe tener al menos 8 caracteres
+Debe tener al menos 1 número
+Debe tener al menos 1 letra mayúscula
+Debe tener al menos 1 letra minúscula
+
+Al final imprime:
+
+"Contraseña válida" si cumple todo
+
+"Contraseña inválida" si falla
+
+Requisitos:
+
+Usa len()
+
+Usa for
+
+Usa contadores o banderas (True/False)
+
+Ejemplo:
+Entrada: "Hola1234"
+Salida: "Contraseña válida"
+
+Entrada: "hola"
+Salida: "Contraseña inválida"
+
+contraseña = input("Ingresa una contraseña: ")
+
+tiene_numero = False
+tiene_mayuscula = False
+tiene_minuscula = False
+
+# Revisión de caracteres
+for letra in contraseña:
+    if letra.isdigit():
+        tiene_numero = True
+    if letra.isupper():
+        tiene_mayuscula = True
+    if letra.islower():
+        tiene_minuscula = True
+
+# Revisión final
+if len(contraseña) >= 8 and tiene_numero and tiene_mayuscula and tiene_minuscula:
+    print("Contraseña válida")
+else:
+    print("Contraseña inválida")
+
+"""
+
