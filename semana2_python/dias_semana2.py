@@ -432,5 +432,198 @@ if len(contraseña) >= 8 and tiene_numero and tiene_mayuscula and tiene_minuscul
 else:
     print("Contraseña inválida")
 
+
+
+#dia 5
+#ejercicio 1
+Pida cuántos productos va a registrar.
+
+Por cada producto pida:
+
+nombre
+
+precio
+
+Guarde cada producto en un diccionario así:
+
+{"nombre": "Coca", "precio": 20}
+
+
+Guarde todos los productos en una lista.
+
+Al final imprima todos los productos así:
+
+PRODUCTOS REGISTRADOS
+1. Coca - $20
+2. Pan - $15
+
+
+cantidad_producto= int(input("cuantos productos vas a insertar: "))
+lista_producto=[]
+
+for i in range(cantidad_producto):
+    Nombre_producto=input(f"ingresa el nombre del producto {i+1}: ")
+    Precio_producto= int(input(f"ingresa el precio del producto {i+1}: "))
+    producto = {"nombre": Nombre_producto, "precio": Precio_producto}
+    lista_producto.append(producto)
+
+for i, producto in enumerate(lista_producto):
+    print(f"{i+1}. {producto['nombre']} - ${producto['precio']}")
+
+#ejercicio 2
+
+Usando la lista de productos del ejercicio 1:
+
+Pide al usuario un nombre de producto para buscar.
+
+Si existe, imprime su precio.
+
+usar bandera encontrado = False
+
+Si no existe, imprime:
+
+"Producto no encontrado"
+Ejemplo:
+Entrada: "Coca"
+Salida: "El precio de Coca es $20"
+
+Nombre_buscado = input("Ingresa el nombre del producto: ")
+encontrado = False
+
+for producto in lista_producto:
+    if producto['nombre'].lower() == Nombre_buscado.lower():
+        print(f"El precio de {producto['nombre']} es ${producto['precio']}")
+        encontrado = True
+        break
+
+if not encontrado:
+    print("Producto no encontrado")
+
+
+#ejercicio 3
+Vas a hacer un sistema con menú usando while:
+
+Menú:
+
+Registrar producto
+
+Mostrar productos
+
+Buscar producto
+
+Calcular total de inventario
+
+Salir
+
+Reglas:
+
+Cada producto es un diccionario:
+
+{"nombre": "Coca", "precio": 20}
+
+
+Todo se guarda en una lista:
+
+productos = []
+
+Funciones obligatorias:
+
+registrar_producto(productos)
+
+Pide nombre y precio
+
+Agrega el diccionario a la lista
+
+mostrar_productos(productos)
+
+Imprime todos los productos
+
+buscar_producto(productos)
+
+Pide un nombre y lo busca
+
+total_inventario(productos)
+
+Suma todos los precios y regresa el total
+
+menu()
+
+Controla el while
+
+Ejemplo de salida:
+
+PRODUCTOS:
+1. Coca - $20
+2. Pan - $15
+
+Total del inventario: $35
 """
+lista_producto = []
+
+def registrar_producto(productos):
+    Nombre_producto=input("ingresa el nombre del producto: ")
+    Precio_producto= int(input("ingresa el precio del producto: "))
+    producto = {"nombre": Nombre_producto, "precio": Precio_producto}
+    productos.append(producto)
+
+def mostrar_productos(productos):
+    if len(productos) == 0:
+        print("No hay productos registrados")
+        return
+
+    print("PRODUCTOS:")
+    for i, producto in enumerate(productos):
+        print(f"{i+1}. {producto['nombre']} - ${producto['precio']}")
+
+def buscar_producto(productos):
+    Nombre_buscado = input("Ingresa el nombre del producto: ")
+    encontrado = False
+
+    for producto in productos:
+        if producto['nombre'].lower() == Nombre_buscado.lower():
+            print(f"El precio de {producto['nombre']} es ${producto['precio']}")
+            encontrado = True
+            break
+
+    if not encontrado:
+        print("Producto no encontrado")
+
+def total_inventario(productos):
+    total = 0
+    for producto in productos:
+        total += producto['precio']
+    return total
+
+def menu():
+    while True:
+        print("\nMenú:")
+        print("1. Registrar producto")
+        print("2. Mostrar productos")
+        print("3. Buscar producto")
+        print("4. Calcular total de inventario")
+        print("5. Salir")
+
+        opcion = input("Elige una opción: ")
+
+        if opcion == "1":
+            registrar_producto(lista_producto)
+
+        elif opcion == "2":
+            mostrar_productos(lista_producto)
+
+        elif opcion == "3":
+            buscar_producto(lista_producto)
+
+        elif opcion == "4":
+            total = total_inventario(lista_producto)
+            print(f"Total del inventario: ${total}")
+
+        elif opcion == "5":
+            print("Saliendo del sistema...")
+            break
+
+        else:
+            print("Opción no válida, intenta de nuevo.")
+
+menu()
 
