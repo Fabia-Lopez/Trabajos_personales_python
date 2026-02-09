@@ -557,7 +557,7 @@ PRODUCTOS:
 2. Pan - $15
 
 Total del inventario: $35
-"""
+
 lista_producto = []
 
 def registrar_producto(productos):
@@ -627,3 +627,4 @@ def menu():
 
 menu()
 
+"""
