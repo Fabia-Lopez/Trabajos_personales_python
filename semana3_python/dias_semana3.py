@@ -283,4 +283,190 @@ for alumno in alumnos:
 if not encontrado:
     print("Alumno no encontrado")
 
+
+#dia 3
+EJERCICIO 1: Registrar alumnos con función
+
+Crea una función llamada:
+
+registrar_alumno(lista)
+
+
+Que pida:
+
+nombre
+
+calificación (0 a 100)
+
+Validaciones:
+
+si mete letras en calificación → error
+
+si está fuera de rango → "Calificación inválida"
+
+Guarda así:
+
+{"nombre": "Juan", "calificacion": 90}
+
+def registrar_alumno(lista):
+    while True:
+        nombre = input("Nombre del alumno: ").strip()
+        if nombre == "":
+            print("Nombre inválido")
+        else:
+            break
+
+    while True:
+        try:
+            calificacion = int(input(f"Calificación de {nombre} (0-100): "))
+            if 0 <= calificacion <= 100:
+                lista.append({"nombre": nombre, "calificacion": calificacion})
+                print(f"Alumno {nombre} registrado con calificación {calificacion}.")
+                break
+            else:
+                print("Calificación inválida")
+        except ValueError:
+            print("Error: ingresa un número válido")
+
+
+#ejercicio 2
+Crea una función:
+
+mostrar_alumnos(lista)
+
+
+Debe imprimir:
+
+ALUMNOS REGISTRADOS
+1. Juan - 90
+2. Ana - 100
+
+
+Si la lista está vacía:
+
+No hay alumnos registrados
+
+def mostrar_alumnos(lista):
+    if len(lista) == 0:
+        print("No hay alumnos registrados")
+    else:
+        print("\nALUMNOS REGISTRADOS")
+        for i, alumno in enumerate(lista, start=1):
+            print(f"{i}. {alumno['nombre']} - {alumno['calificacion']}")
+
+
+#ejercicio 3
+Buscar alumno
+
+Función:
+
+buscar_alumno(lista)
+
+
+Pide un nombre y busca sin importar mayúsculas/minúsculas.
+
+Si existe:
+
+La calificación de Juan es 90
+
+
+Si no:
+
+Alumno no encontrado
+
+def buscar_alumno(lista):
+    nombre_buscar = input("Ingresa el nombre del alumno a buscar: ").strip().lower()
+    encontrado = False
+    for alumno in lista:
+        if alumno["nombre"].lower() == nombre_buscar:
+            print(f"La calificación de {alumno['nombre']} es {alumno['calificacion']}")
+            encontrado = True
+            break
+    if not encontrado:
+        print("Alumno no encontrado")
+
+
+#ejercicio 4
+Promedio general
+
+Función:
+
+promedio_general(lista)
+
+
+Regresa el promedio de todas las calificaciones.
+
+Si no hay alumnos → regresar 0
+
+def promedio_general(lista):
+    if len(lista) == 0:
+        return 0
+    total = sum(alumno["calificacion"] for alumno in lista)
+    return total / len(lista)
+
+#ejercicio 5
+Contar aprobados y reprobados
+
+Función:
+
+contar_aprobados(lista)
+
+
+Aprobado si >=70
+
+y otra:
+
+contar_reprobados(lista)
+
+def contar_aprobados(lista):
+    return sum(1 for alumno in lista if alumno["calificacion"] >= 70)
+
+def contar_reprobados(lista):
+    return sum(1 for alumno in lista if alumno["calificacion"] < 70)
+
+#ejercicio 6
+Menú completo
+
+Haz un programa con menú así:
+
+1. Registrar alumno
+2. Mostrar alumnos
+3. Buscar alumno
+4. Promedio general
+5. Contar aprobados y reprobados
+6. Salir
+El menú debe repetirse con while True hasta que el usuario elija salir.
+
+alumnos = []
+while True:
+    print("\n1. Registrar alumno")
+    print("2. Mostrar alumnos")
+    print("3. Buscar alumno")
+    print("4. Promedio general")
+    print("5. Contar aprobados y reprobados")
+    print("6. Salir")
+
+    opcion = input("Elige una opción: ").strip()
+
+    if opcion == "1":
+        registrar_alumno(alumnos)
+    elif opcion == "2":
+        mostrar_alumnos(alumnos)
+    elif opcion == "3":
+        buscar_alumno(alumnos)
+    elif opcion == "4":
+        if len(alumnos) == 0:
+            print("No hay alumnos registrados")
+        else:
+            promedio = promedio_general(alumnos)
+            print(f"Promedio general: {promedio:.2f}")
+    elif opcion == "5":
+        aprobados = contar_aprobados(alumnos)
+        reprobados = contar_reprobados(alumnos)
+        print(f"Aprobados: {aprobados}, Reprobados: {reprobados}")
+    elif opcion == "6":
+        print("Gracias por usar el programa")
+        break
+    else:
+        print("Opción no válida")
 """
