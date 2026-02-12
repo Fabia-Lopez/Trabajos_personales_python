@@ -469,4 +469,173 @@ while True:
         break
     else:
         print("Opción no válida")
+
+
+#dia 4
+#ejercicio 1
+Editar calificación de un alumno
+
+Tienes una lista de alumnos así:
+
+alumnos = [
+{"nombre": "Juan", "calificacion": 90},
+{"nombre": "Ana", "calificacion": 100}
+]
+
+
+Haz una función:
+
+editar_calificacion(lista)
+
+Debe hacer esto:
+
+Pedir el nombre del alumno a editar
+
+Buscarlo sin importar mayúsculas/minúsculas
+
+Si lo encuentra:
+
+pedir la nueva calificación
+
+validar que sea entre 0 y 100
+
+actualizarla
+
+Si no existe:
+
+imprimir "Alumno no encontrado"
+
+alumnos = [
+    {"nombre": "Juan", "calificacion": 90},
+    {"nombre": "Ana", "calificacion": 100}
+]
+
+def editar_calificacion(lista):
+    nombre_buscar = input("Ingresa el nombre del alumno a editar: ").strip().lower()
+    encontrado = False
+    for alumno in lista:
+        if alumno["nombre"].lower() == nombre_buscar:
+            while True:
+                try:
+                    nueva_calificacion = int(input(f"Ingresa la nueva calificación para {alumno['nombre']} (0-100): "))
+                    if 0 <= nueva_calificacion <= 100:
+                        alumno["calificacion"] = nueva_calificacion
+                        print(f"Calificación de {alumno['nombre']} actualizada a {nueva_calificacion}.")
+                        break
+                    else:
+                        print("Calificación inválida")
+                except ValueError:
+                    print("Error: ingresa un número válido")
+            encontrado = True
+            break
+    if not encontrado:
+        print("Alumno no encontrado")
+
+#ejercicio 2
+Eliminar alumno
+
+Haz una función:
+
+eliminar_alumno(lista)
+
+Debe:
+
+pedir nombre del alumno
+
+buscarlo
+
+si lo encuentra eliminarlo de la lista
+
+imprimir "Alumno eliminado"
+
+si no existe imprimir "Alumno no encontrado"
+
+alumnos = [
+    {"nombre": "Juan", "calificacion": 90},
+    {"nombre": "Ana", "calificacion": 100}
+]
+
+def eliminar_alumno(lista):
+    nombre_buscar = input("Ingresa el nombre del alumno a eliminar: ").strip().lower()
+    encontrado = False
+    for i, alumno in enumerate(lista):
+        if alumno["nombre"].lower() == nombre_buscar:
+            del lista[i]
+            print(f"Alumno {alumno['nombre']} eliminado.")
+            encontrado = True
+            break
+    if not encontrado:
+        print("Alumno no encontrado")
+
+#ejercicio 3
+Reporte completo de alumnos
+
+Haz una función:
+
+reporte_alumnos(lista)
+
+Si la lista está vacía imprimir:
+
+No hay alumnos registrados
+
+
+Si hay alumnos debe imprimir:
+
+REPORTE FINAL
+Total alumnos: 5
+Promedio general: 78.4
+Mayor calificación: 100
+Menor calificación: 45
+Aprobados: 3
+Reprobados: 2
+
+
+Reglas:
+
+Aprobado si >= 70
+
+Reprobado si < 70
+
+Usa for y contadores o sum()
+
+Promedio con 1 decimal
+
+EXTRA (Opcional si quieres)
+
+Agrega estas opciones a tu menú:
+
+7. Editar calificación
+8. Eliminar alumno
+9. Reporte final
+
+def reporte_alumnos(lista):
+    if len(lista) == 0:
+        print("No hay alumnos registrados")
+    else:
+        total_alumnos = len(lista)
+        promedio = promedio_general(lista)
+        mayor_calificacion = max(alumno["calificacion"] for alumno in lista)
+        menor_calificacion = min(alumno["calificacion"] for alumno in lista)
+        aprobados = contar_aprobados(lista)
+        reprobados = contar_reprobados(lista)
+
+        print("\nREPORTE FINAL")
+        print(f"Total alumnos: {total_alumnos}")
+        print(f"Promedio general: {promedio:.1f}")
+        print(f"Mayor calificación: {mayor_calificacion}")
+        print(f"Menor calificación: {menor_calificacion}")
+        print(f"Aprobados: {aprobados}")
+        print(f"Reprobados: {reprobados}")
+
+def promedio_general(lista):
+    if len(lista) == 0:
+        return 0
+    total = sum(alumno["calificacion"] for alumno in lista)
+    return total / len(lista)
+
+def contar_aprobados(lista):
+    return sum(1 for alumno in lista if alumno["calificacion"] >= 70)
+
+def contar_reprobados(lista):
+    return sum(1 for alumno in lista if alumno["calificacion"] < 70)
 """
