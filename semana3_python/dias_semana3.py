@@ -638,4 +638,233 @@ def contar_aprobados(lista):
 
 def contar_reprobados(lista):
     return sum(1 for alumno in lista if alumno["calificacion"] < 70)
+
+
+#dia 5
+#ejercicio 1
+Guardar alumnos con ID único
+
+Cada alumno debe tener ahora:
+
+{"id": 1, "nombre": "Juan", "calificacion": 90}
+
+
+Haz una función:
+
+registrar_alumno(lista)
+
+
+Reglas:
+
+el ID debe aumentar automáticamente (1,2,3...)
+
+calificación 0-100 validada
+
+nombre no vacío
+
+def registrar_alumno(lista):
+    while True:
+        nombre = input("Nombre del alumno: ").strip()
+        if nombre == "":
+            print("Nombre inválido")
+        else:
+            break
+
+    while True:
+        try:
+            calificacion = int(input(f"Calificación de {nombre} (0-100): "))
+            if 0 <= calificacion <= 100:
+
+                nuevo_id = 1
+                if len(lista) > 0:
+                    nuevo_id = max(alumno["id"] for alumno in lista) + 1
+
+                lista.append({"id": nuevo_id, "nombre": nombre, "calificacion": calificacion})
+                print(f"Alumno {nombre} registrado con ID {nuevo_id} y calificación {calificacion}.")
+                break
+            else:
+                print("Calificación inválida")
+        except ValueError:
+            print("Error: ingresa un número válido")
+
+#ejercicio 2
+Función:
+
+buscar_por_id(lista)
+
+
+Pide un ID y muestra:
+
+Alumno encontrado:
+ID: 3
+Nombre: Ana
+Calificación: 100
+
+
+Si no existe:
+
+Alumno no encontrado
+
+def buscar_por_id(lista):
+    try:
+        id_buscar = int(input("Ingresa el ID del alumno a buscar: "))
+        encontrado = False
+
+        for alumno in lista:
+            if alumno["id"] == id_buscar:
+                print("\nAlumno encontrado:")
+                print(f"ID: {alumno['id']}")
+                print(f"Nombre: {alumno['nombre']}")
+                print(f"Calificación: {alumno['calificacion']}")
+                encontrado = True
+                break
+
+        if not encontrado:
+            print("Alumno no encontrado")
+
+    except ValueError:
+        print("Error: ingresa un número válido")
+
+#ejercicio 3
+Mostrar alumnos ordenados por calificación
+
+Función:
+
+mostrar_ordenados(lista)
+
+
+Debe mostrar del mayor al menor:
+
+ALUMNOS ORDENADOS
+1. Ana - 100
+2. Juan - 90
+3. Pedro - 60
+
+def mostrar_ordenados(lista):
+    if len(lista) == 0:
+        print("No hay alumnos registrados")
+    else:
+        print("\nALUMNOS ORDENADOS")
+        alumnos_ordenados = sorted(lista, key=lambda x: x["calificacion"], reverse=True)
+        for i, alumno in enumerate(alumnos_ordenados, start=1):
+            print(f"{i}. {alumno['nombre']} - {alumno['calificacion']}")
+
+#ejercicio 4
+Guardar alumnos en archivo TXT (modo guardado)
+
+Función:
+
+guardar_archivo(lista)
+
+
+Debe guardar en un archivo llamado:
+
+alumnos.txt
+
+Ejemplo del archivo:
+
+1,Juan,90
+2,Ana,100
+3,Pedro,60
+
+def guardar_archivo(lista):
+    with open("alumnos.txt", "w") as archivo:
+        for alumno in lista:
+            linea = f"{alumno['id']},{alumno['nombre']},{alumno['calificacion']}\n"
+            archivo.write(linea)
+    print("Alumnos guardados en alumnos.txt")
+
+#ejercicio 5
+Cargar alumnos desde archivo TXT
+
+Función:
+
+cargar_archivo(lista)
+
+
+Debe leer el archivo alumnos.txt y meterlos a la lista.
+
+def cargar_archivo(lista):
+    try:
+        lista.clear()
+
+        with open("alumnos.txt", "r") as archivo:
+            for linea in archivo:
+                linea = linea.strip()
+                if linea == "":
+                    continue
+
+                id_str, nombre, calificacion_str = linea.split(",")
+
+                alumno = {
+                    "id": int(id_str),
+                    "nombre": nombre,
+                    "calificacion": int(calificacion_str)
+                }
+
+                lista.append(alumno)
+
+        print("Alumnos cargados desde alumnos.txt")
+
+    except FileNotFoundError:
+        print("Archivo alumnos.txt no encontrado")
+
+    except Exception as e:
+        print(f"Error al cargar el archivo: {e}")
+
+#ejercicio 6
+Menú completo (modo sistema real)
+
+El menú debe tener:
+
+1. Registrar alumno
+2. Mostrar alumnos
+3. Buscar alumno por nombre
+4. Buscar alumno por ID
+5. Editar calificación
+6. Eliminar alumno
+7. Reporte final
+8. Guardar en archivo
+9. Cargar desde archivo
+10. Salir
+
+alumnos = []
+
+while True:
+    print("\n1. Registrar alumno")
+    print("2. Mostrar alumnos")
+    print("3. Buscar alumno por nombre")
+    print("4. Buscar alumno por ID")
+    print("5. Editar calificación")
+    print("6. Eliminar alumno")
+    print("7. Reporte final")
+    print("8. Guardar en archivo")
+    print("9. Cargar desde archivo")
+    print("10. Salir")
+
+    opcion = input("Elige una opción: ").strip()
+
+    if opcion == "1":
+        registrar_alumno(alumnos)
+    elif opcion == "2":
+        mostrar_alumnos(alumnos)
+    elif opcion == "3":
+        buscar_alumno(alumnos)
+    elif opcion == "4":
+        buscar_por_id(alumnos)
+    elif opcion == "5":
+        editar_calificacion(alumnos)
+    elif opcion == "6":
+        eliminar_alumno(alumnos)
+    elif opcion == "7":
+        reporte_alumnos(alumnos)
+    elif opcion == "8":
+        guardar_archivo(alumnos)
+    elif opcion == "9":
+        cargar_archivo(alumnos)
+    elif opcion == "10":
+        print("Gracias por usar el programa")
+        break
+    else:
+        print("Opción no válida")
 """
