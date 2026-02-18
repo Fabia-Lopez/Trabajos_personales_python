@@ -463,4 +463,268 @@ while True:
     else:
         print("Opción no válida, por favor selecciona una opción del 1 al 10.")
 
+
+#dia 3
+Ejercicio 1
+Agregar producto al carrito
+
+Crea una función:
+
+agregar_al_carrito(inventario, carrito)
+
+
+Debe:
+
+pedir ID del producto
+
+pedir cantidad
+
+validar:
+
+cantidad > 0
+
+que exista el producto
+
+que haya stock suficiente
+
+si es válido agregarlo al carrito así:
+
+{"id": 1, "nombre": "Coca", "precio": 20, "cantidad": 3}
+
+
+OJO: NO debe descontar stock todavía.
+
+def agregar_al_carrito(inventario, carrito):
+    try:
+        id_producto = int(input("Ingresa el ID del producto: "))
+    except ValueError:
+        print("ID inválido")
+        return
+
+    producto_encontrado = None
+    for producto in inventario:
+        if producto["id"] == id_producto:
+            producto_encontrado = producto
+            break
+
+    if producto_encontrado is None:
+        print("Producto no encontrado")
+        return
+
+    try:
+        cantidad = int(input("Ingresa la cantidad: "))
+        if cantidad <= 0:
+            print("Cantidad inválida")
+            return
+    except ValueError:
+        print("Cantidad inválida")
+        return
+
+    if cantidad > producto_encontrado["stock"]:
+        print("Stock insuficiente")
+        return
+
+    # 🔥 Si ya existe en el carrito, solo sumamos la cantidad
+    for item in carrito:
+        if item["id"] == id_producto:
+            if item["cantidad"] + cantidad > producto_encontrado["stock"]:
+                print("Stock insuficiente para agregar esa cantidad extra")
+                return
+
+            item["cantidad"] += cantidad
+            print(f"Cantidad actualizada: {item['nombre']} x{item['cantidad']}")
+            return
+
+    # Si no existe, se agrega normal
+    carrito.append({
+        "id": producto_encontrado["id"],
+        "nombre": producto_encontrado["nombre"],
+        "precio": producto_encontrado["precio"],
+        "cantidad": cantidad
+    })
+
+    print(f"{cantidad} unidades de {producto_encontrado['nombre']} agregadas al carrito")
+
+#ejercicio 2
+Mostrar carrito
+
+Función:
+
+mostrar_carrito(carrito)
+
+
+Debe imprimir:
+
+CARRITO ACTUAL
+1. Coca - $20 x3 = $60
+2. Pan - $15 x1 = $15
+TOTAL: $75
+
+
+Si carrito está vacío:
+
+Carrito vacío
+
+def mostrar_carrito(carrito):
+    if len(carrito) == 0:
+        print("Carrito vacío")
+        return
+
+    print("\nCARRITO ACTUAL")
+    total = 0
+
+    for i, item in enumerate(carrito, start=1):
+        subtotal = item["precio"] * item["cantidad"]
+        total += subtotal
+        print(f"{i}. {item['nombre']} - ${item['precio']:.2f} x{item['cantidad']} = ${subtotal:.2f}")
+
+    print(f"TOTAL: ${total:.2f}")
+
+
+#ejercicio 3
+Confirmar venta (descontar stock)
+
+Función:
+
+confirmar_venta(inventario, carrito)
+
+
+Debe:
+
+recorrer carrito
+descontar stock en inventario
+calcular total
+imprimir ticket final
+vaciar carrito (carrito.clear())
+
+Si carrito está vacío:
+
+No hay productos en el carrito
+
+def confirmar_venta(inventario, carrito):
+    if len(carrito) == 0:
+        print("No hay productos en el carrito")
+        return 0
+
+    # Validar que todo tenga stock antes de descontar
+    for item in carrito:
+        for producto in inventario:
+            if producto["id"] == item["id"]:
+                if item["cantidad"] > producto["stock"]:
+                    print(f"Stock insuficiente para {producto['nombre']}. Venta cancelada.")
+                    return 0
+
+    # Descontar stock
+    total = 0
+    for item in carrito:
+        for producto in inventario:
+            if producto["id"] == item["id"]:
+                producto["stock"] -= item["cantidad"]
+                subtotal = item["precio"] * item["cantidad"]
+                total += subtotal
+
+    # Imprimir ticket
+    print("\n===== TICKET DE VENTA =====")
+    for item in carrito:
+        subtotal = item["precio"] * item["cantidad"]
+        print(f"{item['nombre']} - ${item['precio']:.2f} x{item['cantidad']} = ${subtotal:.2f}")
+
+    print(f"TOTAL A PAGAR: ${total:.2f}")
+    print("===========================")
+
+    carrito.clear()
+    return total
+
+#ejercicio 4
+Guardar ticket en archivo
+
+Función:
+
+guardar_ticket(carrito, total)
+
+
+Debe guardar en:
+
+ventas.txt
+
+Formato recomendado:
+
+--- NUEVA VENTA ---
+Coca,20,3,60
+Pan,15,1,15
+TOTAL: 75
+
+
+def guardar_ticket(ticket_items, total):
+    try:
+        with open("ventas.txt", "a") as archivo:
+            archivo.write("\n--- NUEVA VENTA ---\n")
+
+            for item in ticket_items:
+                subtotal = item["precio"] * item["cantidad"]
+                archivo.write(f"{item['nombre']},{item['precio']},{item['cantidad']},{subtotal:.2f}\n")
+
+            archivo.write(f"TOTAL: {total:.2f}\n")
+
+        print("Ticket guardado en ventas.txt")
+
+    except Exception as e:
+        print(f"Error al guardar el ticket: {e}")
+
+
+
+#ejercicio 5
+Menú completo (modo tienda real)
+
+Menú:
+
+1. Mostrar inventario
+2. Agregar producto al carrito
+3. Mostrar carrito
+4. Confirmar venta
+5. Guardar inventario
+6. Cargar inventario
+7. Salir
+
+
+inventario = []
+carrito = []
+
+while True:
+    print("\nMenú de Tienda")
+    print("1. Mostrar inventario")
+    print("2. Agregar producto al carrito")
+    print("3. Mostrar carrito")
+    print("4. Confirmar venta")
+    print("5. Guardar inventario")
+    print("6. Cargar inventario")
+    print("7. Salir")
+
+    opcion = input("Selecciona una opción: ").strip()
+
+    if opcion == "1":
+        mostrar_productos(inventario)
+
+    elif opcion == "2":
+        agregar_al_carrito(inventario, carrito)
+
+    elif opcion == "3":
+        mostrar_carrito(carrito)
+
+    elif opcion == "4":
+        confirmar_venta(inventario, carrito)
+
+    elif opcion == "5":
+        guardar_productos(inventario)
+
+    elif opcion == "6":
+        cargar_productos(inventario)
+
+    elif opcion == "7":
+        print("Saliendo del programa...")
+        break
+
+    else:
+        print("Opción no válida, por favor selecciona una opción del 1 al 7.")
+    
 """
