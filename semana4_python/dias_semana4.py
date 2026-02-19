@@ -727,4 +727,252 @@ while True:
     else:
         print("Opción no válida, por favor selecciona una opción del 1 al 7.")
     
+
+#dia 4
+Ejercicio 1
+Guardar venta en historial
+
+Crea una función:
+
+registrar_venta(historial, ticket, total)
+
+
+Debe:
+
+generar folio automático (folio = len(historial)+1)
+
+guardar fecha y hora actual
+
+guardar lista de productos con subtotales
+
+guardar total
+
+meter todo al historial
+
+Debe imprimir:
+
+Venta registrada con folio: 3
+
+from datetime import datetime
+
+def registrar_venta(historial, ticket_items, total):
+    folio = len(historial) + 1
+    fecha_hora = datetime.now()
+
+    venta = {
+        "folio": folio,
+        "fecha_hora": fecha_hora,
+        "items": ticket_items.copy(),  # Guardamos una copia del ticket
+        "total": total
+    }
+
+    historial.append(venta)
+    print(f"Venta registrada con folio: {folio}")
+
+
+#ejercicio 2
+Mostrar historial de ventas
+
+Función:
+
+mostrar_historial(historial)
+
+
+Debe imprimir algo así:
+
+HISTORIAL DE VENTAS
+Folio: 1 | Fecha: 2026-02-12 10:20 | Total: $75
+Folio: 2 | Fecha: 2026-02-12 11:05 | Total: $40
+
+
+Si no hay ventas:
+
+No hay ventas registradas
+
+def mostrar_historial(historial):
+    if len(historial) == 0:
+        print("No hay ventas registradas")
+        return
+
+    print("\nHISTORIAL DE VENTAS")
+    for venta in historial:
+        fecha_str = venta["fecha_hora"].strftime("%Y-%m-%d %H:%M")
+        print(f"Folio: {venta['folio']} | Fecha: {fecha_str} | Total: ${venta['total']:.2f}")
+
+
+#ejercicio 3
+Ver detalle de una venta por folio
+
+Función:
+
+ver_venta(historial)
+
+
+Debe pedir folio.
+
+Si existe, imprimir:
+
+VENTA #2
+Fecha: 2026-02-12 11:05
+Coca - 20 x2 = 40
+TOTAL: 40
+
+
+Si no existe:
+
+Venta no encontrada
+
+def ver_venta(historial):
+    if len(historial) == 0:
+        print("No hay ventas registradas")
+        return
+
+    try:
+        folio_busqueda = int(input("Ingresa el folio de la venta que deseas ver: "))
+    except ValueError:
+        print("Folio inválido")
+        return
+
+    for venta in historial:
+        if venta["folio"] == folio_busqueda:
+            fecha_str = venta["fecha_hora"].strftime("%Y-%m-%d %H:%M")
+            print(f"\nVENTA #{venta['folio']}")
+            print(f"Fecha: {fecha_str}")
+            for item in venta["items"]:
+                subtotal = item["precio"] * item["cantidad"]
+                print(f"{item['nombre']} - ${item['precio']:.2f} x{item['cantidad']} = ${subtotal:.2f}")
+            print(f"TOTAL: ${venta['total']:.2f}")
+            return
+
+    print("Venta no encontrada")
+
+#ejercicio 4
+Reporte total vendido
+
+Función:
+
+reporte_ventas(historial)
+
+
+Debe imprimir:
+
+total de ventas
+
+dinero total ganado
+
+venta más cara
+
+venta más barata
+
+Ejemplo:
+
+REPORTE DE VENTAS
+Total de ventas: 5
+Dinero total ganado: $850
+Venta más cara: Folio 3 ($250)
+Venta más barata: Folio 1 ($40)
+
+
+
+def reporte_ventas(historial):
+    if len(historial) == 0:
+        print("No hay ventas registradas")
+        return
+
+    total_ventas = len(historial)
+    dinero_total_ganado = sum(venta["total"] for venta in historial)
+    venta_mas_cara = max(historial, key=lambda x: x["total"])
+    venta_mas_barata = min(historial, key=lambda x: x["total"])
+
+    print("\nREPORTE DE VENTAS")
+    print(f"Total de ventas: {total_ventas}")
+    print(f"Dinero total ganado: ${dinero_total_ganado:.2f}")
+    print(f"Venta más cara: Folio {venta_mas_cara['folio']} (${venta_mas_cara['total']:.2f})")
+    print(f"Venta más barata: Folio {venta_mas_barata['folio']} (${venta_mas_barata['total']:.2f})")
+
+
+#ejercicio 5
+MENÚ NUEVO COMPLETO
+
+Tu menú ahora debe ser:
+
+Mostrar inventario
+
+Agregar producto al carrito
+
+Mostrar carrito
+
+Confirmar venta (y guardar en historial)
+
+Mostrar historial de ventas
+
+Ver venta por folio
+
+Reporte de ventas
+
+Guardar inventario
+
+Cargar inventario
+
+Salir
+
+historial = []
+
+while True:
+    print("\nMenú de Tienda")
+    print("1. Mostrar inventario")
+    print("2. Agregar producto al carrito")
+    print("3. Mostrar carrito")
+    print("4. Confirmar venta")
+    print("5. Mostrar historial de ventas")
+    print("6. Ver venta por folio")
+    print("7. Reporte de ventas")
+    print("8. Guardar inventario")
+    print("9. Cargar inventario")
+    print("10. Salir")
+
+    opcion = input("Selecciona una opción: ").strip()
+
+    if opcion == "1":
+        mostrar_productos(inventario)
+
+    elif opcion == "2":
+        agregar_al_carrito(inventario, carrito)
+
+    elif opcion == "3":
+        mostrar_carrito(carrito)
+
+    elif opcion == "4":
+        total_venta = confirmar_venta(inventario, carrito)
+
+        if total_venta > 0:
+            ticket = carrito.copy()
+
+            registrar_venta(historial, ticket, total_venta)
+            guardar_ticket(ticket, total_venta)
+
+            carrito.clear()
+            print("Venta completada correctamente.")
+
+    elif opcion == "5":
+        mostrar_historial(historial)
+
+    elif opcion == "6":
+        ver_venta(historial)
+
+    elif opcion == "7":
+        reporte_ventas(historial)
+
+    elif opcion == "8":
+        guardar_productos(inventario)
+
+    elif opcion == "9":
+        cargar_productos(inventario)
+
+    elif opcion == "10":
+        print("Saliendo del programa...")
+        break
+
+    else:
+        print("Opción no válida, por favor selecciona una opción del 1 al 10.")
 """
