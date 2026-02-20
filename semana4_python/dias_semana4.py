@@ -975,4 +975,242 @@ while True:
 
     else:
         print("Opción no válida, por favor selecciona una opción del 1 al 10.")
+
+
+#Dia 5
+Ejercicio 1
+Guardar historial completo
+
+Función:
+
+guardar_historial(historial)
+
+Debe:
+
+recorrer todas las ventas
+
+escribir cada una con el formato anterior
+
+usar modo "w" (sobrescribir)
+
+manejar errores
+
+FORMATO QUE USAREMOS EN ventas.txt
+
+Ejemplo:
+
+---VENTA---
+FOLIO:1
+FECHA:2026-02-20 18:30
+ITEM:Coca,20,2,40
+ITEM:Pan,15,1,15
+TOTAL:55
+
+Luego otra venta:
+
+---VENTA---
+FOLIO:2
+FECHA:2026-02-20 19:05
+ITEM:Leche,25,2,50
+TOTAL:50
+
+
+def guardar_historial(historial):
+    try:
+        with open("ventas.txt", "w") as archivo:
+            for venta in historial:
+                archivo.write("---VENTA---\n")
+                archivo.write(f"FOLIO:{venta['folio']}\n")
+                fecha_str = venta["fecha_hora"].strftime("%Y-%m-%d %H:%M")
+                archivo.write(f"FECHA:{fecha_str}\n")
+
+                for item in venta["items"]:
+                    subtotal = item["precio"] * item["cantidad"]
+                    archivo.write(f"ITEM:{item['nombre']},{item['precio']},{item['cantidad']},{subtotal:.2f}\n")
+
+                archivo.write(f"TOTAL:{venta['total']:.2f}\n")
+
+        print("Historial completo guardado en ventas.txt")
+
+    except Exception as e:
+        print(f"Error al guardar el historial: {e}")
+
+        
+#ejercicio 2
+Cargar historial desde archivo
+
+Función:
+
+cargar_historial(historial)
+
+Debe:
+
+limpiar historial
+
+leer archivo
+
+reconstruir cada venta
+
+convertir fecha a datetime
+
+convertir números correctamente
+
+agregar ventas a historial
+
+Si no existe archivo:
+
+Archivo no encontrado
+Concepto nuevo clave
+
+Convertir texto a datetime:
+
+from datetime import datetime
+
+fecha = datetime.strptime(fecha_str, "%Y-%m-%d %H:%M")
+
+Eso convierte texto en fecha real.
+
+def cargar_historial(historial):
+    try:
+        with open("ventas.txt", "r") as archivo:
+            historial.clear()
+            venta_actual = None
+
+            for linea in archivo:
+                linea = linea.strip()
+
+                if linea == "---VENTA---":
+                    if venta_actual is not None:
+                        historial.append(venta_actual)
+                    venta_actual = {"items": []}
+
+                elif linea.startswith("FOLIO:"):
+                    venta_actual["folio"] = int(linea.split(":")[1])
+
+                elif linea.startswith("FECHA:"):
+                    fecha_str = linea.split(":")[1]
+                    venta_actual["fecha_hora"] = datetime.strptime(fecha_str, "%Y-%m-%d %H:%M")
+
+                elif linea.startswith("ITEM:"):
+                    _, item_str = linea.split(":", 1)
+                    nombre, precio_str, cantidad_str, subtotal_str = item_str.split(",")
+                    item = {
+                        "nombre": nombre,
+                        "precio": float(precio_str),
+                        "cantidad": int(cantidad_str)
+                    }
+                    venta_actual["items"].append(item)
+
+                elif linea.startswith("TOTAL:"):
+                    venta_actual["total"] = float(linea.split(":")[1])
+
+            if venta_actual is not None:
+                historial.append(venta_actual)
+
+        print("Historial cargado desde ventas.txt")
+
+    except FileNotFoundError:
+        print("Archivo no encontrado")
+
+    except Exception as e:
+        print(f"Error al cargar el historial: {e}")
+
+#ejercicio 3
+Agregar al menú
+
+Tu menú ahora tendrá:
+
+Mostrar inventario
+
+Agregar al carrito
+
+Mostrar carrito
+
+Confirmar venta
+
+Mostrar historial
+
+Ver venta
+
+Reporte ventas
+
+Guardar inventario
+
+Cargar inventario
+
+Guardar historial ventas
+
+Cargar historial ventas
+
+Salir
+
+inventario = []
+carrito = []
+historial = []
+
+while True:
+    print("\nMenú de Tienda")
+    print("1. Mostrar inventario")
+    print("2. Agregar producto al carrito")
+    print("3. Mostrar carrito")
+    print("4. Confirmar venta")
+    print("5. Mostrar historial de ventas")
+    print("6. Ver venta por folio")
+    print("7. Reporte de ventas")
+    print("8. Guardar inventario")
+    print("9. Cargar inventario")
+    print("10. Guardar historial ventas")
+    print("11. Cargar historial ventas")
+    print("12. Salir")
+
+    opcion = input("Selecciona una opción: ").strip()
+
+    if opcion == "1":
+        mostrar_productos(inventario)
+
+    elif opcion == "2":
+        agregar_al_carrito(inventario, carrito)
+
+    elif opcion == "3":
+        mostrar_carrito(carrito)
+
+    elif opcion == "4":
+        total_venta = confirmar_venta(inventario, carrito)
+
+        if total_venta > 0:
+            ticket = carrito.copy()
+
+            registrar_venta(historial, ticket, total_venta)
+            guardar_ticket(ticket, total_venta)
+
+            carrito.clear()
+            print("Venta completada correctamente.")
+
+    elif opcion == "5":
+        mostrar_historial(historial)
+
+    elif opcion == "6":
+        ver_venta(historial)
+
+    elif opcion == "7":
+        reporte_ventas(historial)
+
+    elif opcion == "8":
+        guardar_productos(inventario)
+
+    elif opcion == "9":
+        cargar_productos(inventario)
+
+    elif opcion == "10":
+        guardar_historial(historial)
+
+    elif opcion == "11":
+        cargar_historial(historial)
+
+    elif opcion == "12":
+        print("Saliendo del programa...")
+        break
+
+    else:
+        print("Opción no válida, por favor selecciona una opción del 1 al 12.")
 """
