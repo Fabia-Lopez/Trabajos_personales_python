@@ -31,7 +31,7 @@ def main():
             "MENÚ PRINCIPAL",
             {
                 "1": "Gestión de Inventario",
-                "2": "Realizar Venta",
+                "2": "Ventas",
                 "3": "Reportes",
                 "4": "Salir"
             }
@@ -54,16 +54,54 @@ def main():
                 )
 
                 if sub == "1":
-                    inventario_data = inventario.registrar_producto(inventario_data)
-                    inventario.guardar_inventario(inventario_data)
+                    try:
+                        nombre = input("Nombre: ")
+                        precio = float(input("Precio: "))
+                        cantidad = int(input("Cantidad: "))
+                        stock = int(input("Stock: "))
+                    except ValueError:
+                        print("Datos inválidos.")
+                        continue
+
+                    exito, mensaje = inventario.registrar_producto(
+                        inventario_data, nombre, precio, cantidad, stock
+                    )
+
+                    print(mensaje)
+
+                    if exito:
+                        inventario.guardar_inventario(inventario_data)
 
                 elif sub == "2":
-                    inventario_data = inventario.editar_producto(inventario_data)
-                    inventario.guardar_inventario(inventario_data)
+                    try:
+                        nombre = input("Nombre del producto a editar: ")
+                        precio = float(input("Nuevo precio: "))
+                        cantidad = int(input("Nueva cantidad: "))
+                        stock = int(input("Nuevo stock: "))
+                    except ValueError:
+                        print("Datos inválidos.")
+                        continue
+
+                        exito, mensaje = inventario.editar_producto(
+                            inventario_data, nombre, precio, cantidad, stock
+                        )
+
+                    print(mensaje)
+
+                    if exito:
+                        inventario.guardar_inventario(inventario_data)
 
                 elif sub == "3":
-                    inventario_data = inventario.eliminar_producto(inventario_data)
-                    inventario.guardar_inventario(inventario_data)
+                    nombre = input("Nombre del producto a eliminar: ")
+
+                    exito, mensaje = inventario.eliminar_producto(
+                        inventario_data, nombre
+                    )
+
+                    print(mensaje)
+
+                    if exito:
+                        inventario.guardar_inventario(inventario_data)
 
                 elif sub == "4":
                     inventario.mostrar_productos(inventario_data)
@@ -82,7 +120,7 @@ def main():
                 sub = mostrar_menu(
                     "VENTAS",
                     {
-                        "1": "Agregar producto al carrito",
+                        "1": "Agregar al carrito",
                         "2": "Mostrar carrito",
                         "3": "Confirmar venta",
                         "4": "Cancelar y volver"
@@ -90,18 +128,34 @@ def main():
                 )
 
                 if sub == "1":
-                    carrito = ventas.agregar_al_carrito(inventario_data, carrito)
+                    try:
+                        nombre = input("Nombre del producto: ")
+                        cantidad = int(input("Cantidad: "))
+                    except ValueError:
+                        print("Cantidad inválida.")
+                        continue
+
+                    exito, mensaje = ventas.agregar_al_carrito(
+                        inventario_data, carrito, nombre, cantidad
+                    )
+
+                    print(mensaje)
 
                 elif sub == "2":
                     ventas.mostrar_carrito(carrito)
 
                 elif sub == "3":
-                    total = ventas.confirmar_venta(inventario_data, carrito)
+                    exito, total, mensaje = ventas.confirmar_venta(
+                        inventario_data, carrito
+                    )
 
-                    if total > 0:
+                    print(mensaje)
+
+                    if exito:
                         historial_ventas = ventas.registrar_venta(
                             historial_ventas, carrito, total
                         )
+
                         ventas.guardar_historial(historial_ventas)
                         inventario.guardar_inventario(inventario_data)
                         carrito.clear()
@@ -123,9 +177,9 @@ def main():
                 sub = mostrar_menu(
                     "REPORTES",
                     {
-                        "1": "Mostrar Historial",
-                        "2": "Ver Detalle de Venta",
-                        "3": "Reporte General",
+                        "1": "Mostrar historial",
+                        "2": "Ver detalle de venta",
+                        "3": "Reporte general",
                         "4": "Volver"
                     }
                 )

@@ -4,22 +4,13 @@ Maneja todas las operaciones relacionadas con productos:
 registrar, editar, eliminar, mostrar, guardar y cargar inventario.
 """
 
-def registrar_producto(inventario):
-    """Registra un nuevo producto en el inventario."""
-    
-    nombre = input("Ingrese el nombre del producto: ").strip()
+def registrar_producto(inventario, nombre, precio, cantidad, stock):
 
     if nombre in inventario:
-        print("Ese producto ya existe.")
-        return inventario
+        return False, "El producto ya existe."
 
-    try:
-        precio = float(input("Ingrese el precio del producto: "))
-        cantidad = int(input("Ingrese la cantidad del producto: "))
-        stock = int(input("Ingrese el stock del producto: "))
-    except ValueError:
-        print("Error: Precio, cantidad y stock deben ser números válidos.")
-        return inventario
+    if precio < 0 or cantidad < 0 or stock < 0:
+        return False, "Los valores no pueden ser negativos."
 
     inventario[nombre] = {
         "precio": precio,
@@ -27,47 +18,30 @@ def registrar_producto(inventario):
         "stock": stock
     }
 
-    print(f"Producto '{nombre}' registrado exitosamente.")
-    return inventario
+    return True, "Producto registrado correctamente."
 
-
-def editar_producto(inventario):
-    """Edita un producto existente en el inventario."""
-    
-    nombre = input("Ingrese el nombre del producto a editar: ").strip()
+def editar_producto(inventario, nombre, precio, cantidad, stock):
 
     if nombre not in inventario:
-        print("Producto no encontrado.")
-        return inventario
+        return False, "Producto no encontrado."
 
-    try:
-        precio = float(input("Ingrese el nuevo precio: "))
-        cantidad = int(input("Ingrese la nueva cantidad: "))
-        stock = int(input("Ingrese el nuevo stock: "))
-    except ValueError:
-        print("Error: Datos inválidos.")
-        return inventario
+    if precio < 0 or cantidad < 0 or stock < 0:
+        return False, "Los valores no pueden ser negativos."
 
     inventario[nombre]["precio"] = precio
     inventario[nombre]["cantidad"] = cantidad
     inventario[nombre]["stock"] = stock
 
-    print(f"Producto '{nombre}' actualizado correctamente.")
-    return inventario
+    return True, "Producto actualizado correctamente."
 
 
-def eliminar_producto(inventario):
-    """Elimina un producto del inventario."""
-    
-    nombre = input("Ingrese el nombre del producto a eliminar: ").strip()
+def eliminar_producto(inventario, nombre):
 
-    if nombre in inventario:
-        del inventario[nombre]
-        print(f"Producto '{nombre}' eliminado correctamente.")
-    else:
-        print("Producto no encontrado.")
+    if nombre not in inventario:
+        return False, "Producto no encontrado."
 
-    return inventario
+    del inventario[nombre]
+    return True, "Producto eliminado correctamente."
 
 
 def mostrar_productos(inventario):

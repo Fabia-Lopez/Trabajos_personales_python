@@ -6,30 +6,19 @@ Maneja carrito, confirmación de venta, historial y persistencia.
 from datetime import datetime
 
 
-def agregar_al_carrito(inventario, carrito):
-    """Agrega un producto al carrito validando stock correctamente."""
-
-    nombre = input("Ingrese el nombre del producto: ").strip()
+def agregar_al_carrito(inventario, carrito, nombre, cantidad):
 
     if nombre not in inventario:
-        print("Producto no encontrado.")
-        return carrito
+        return False, "Producto no encontrado."
 
-    try:
-        cantidad = int(input("Ingrese la cantidad: "))
-        if cantidad <= 0:
-            print("Cantidad inválida.")
-            return carrito
-    except ValueError:
-        print("Debe ingresar un número válido.")
-        return carrito
+    if cantidad <= 0:
+        return False, "Cantidad inválida."
 
     stock_disponible = inventario[nombre]["stock"]
     cantidad_actual = carrito.get(nombre, {}).get("cantidad", 0)
 
     if cantidad + cantidad_actual > stock_disponible:
-        print(f"Stock insuficiente. Disponible: {stock_disponible}")
-        return carrito
+        return False, f"Stock insuficiente. Disponible: {stock_disponible}"
 
     if nombre in carrito:
         carrito[nombre]["cantidad"] += cantidad
@@ -39,8 +28,7 @@ def agregar_al_carrito(inventario, carrito):
             "cantidad": cantidad
         }
 
-    print("Producto agregado al carrito.")
-    return carrito
+    return True, "Producto agregado al carrito."
 
 
 def mostrar_carrito(carrito):
@@ -62,26 +50,16 @@ def mostrar_carrito(carrito):
 
 
 def confirmar_venta(inventario, carrito):
-    """Confirma la venta y actualiza el inventario."""
 
     if not carrito:
-        print("El carrito está vacío.")
-        return 0
+        return False, 0, "El carrito está vacío."
 
     total = sum(d["precio"] * d["cantidad"] for d in carrito.values())
-
-    print(f"Total a pagar: ${total:.2f}")
-    confirmacion = input("¿Confirmar venta? (s/n): ").strip().lower()
-
-    if confirmacion != "s":
-        print("Venta cancelada.")
-        return 0
 
     for nombre, datos in carrito.items():
         inventario[nombre]["stock"] -= datos["cantidad"]
 
-    print("Venta confirmada.")
-    return total
+    return True, total, "Venta confirmada correctamente."
 
 
 def registrar_venta(historial, carrito, total):
