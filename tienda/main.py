@@ -8,6 +8,17 @@ import ventas
 import reportes
 
 
+# ----------- FUNCIÓN HELPER PARA MENÚS -----------
+
+def mostrar_menu(titulo, opciones):
+    print(f"\n=== {titulo} ===")
+    for clave, descripcion in opciones.items():
+        print(f"{clave}. {descripcion}")
+    return input("Seleccione una opción: ").strip()
+
+
+# ----------- FUNCIÓN PRINCIPAL -----------
+
 def main():
 
     inventario_data = inventario.cargar_inventario()
@@ -15,26 +26,32 @@ def main():
     carrito = {}
 
     while True:
-        print("\n=== MENÚ PRINCIPAL ===")
-        print("1. Gestión de Inventario")
-        print("2. Realizar Venta")
-        print("3. Reportes")
-        print("4. Salir")
 
-        opcion = input("Seleccione una opción: ").strip()
+        opcion = mostrar_menu(
+            "MENÚ PRINCIPAL",
+            {
+                "1": "Gestión de Inventario",
+                "2": "Realizar Venta",
+                "3": "Reportes",
+                "4": "Salir"
+            }
+        )
 
-        # ---------------- INVENTARIO ----------------
+        # ================= INVENTARIO =================
         if opcion == "1":
 
             while True:
-                print("\n--- GESTIÓN DE INVENTARIO ---")
-                print("1. Registrar Producto")
-                print("2. Editar Producto")
-                print("3. Eliminar Producto")
-                print("4. Mostrar Productos")
-                print("5. Volver")
 
-                sub = input("Seleccione una opción: ").strip()
+                sub = mostrar_menu(
+                    "GESTIÓN DE INVENTARIO",
+                    {
+                        "1": "Registrar Producto",
+                        "2": "Editar Producto",
+                        "3": "Eliminar Producto",
+                        "4": "Mostrar Productos",
+                        "5": "Volver"
+                    }
+                )
 
                 if sub == "1":
                     inventario_data = inventario.registrar_producto(inventario_data)
@@ -57,17 +74,20 @@ def main():
                 else:
                     print("Opción inválida.")
 
-        # ---------------- VENTAS ----------------
+        # ================= VENTAS =================
         elif opcion == "2":
 
             while True:
-                print("\n--- VENTAS ---")
-                print("1. Agregar producto al carrito")
-                print("2. Mostrar carrito")
-                print("3. Confirmar venta")
-                print("4. Cancelar y volver")
 
-                sub = input("Seleccione una opción: ").strip()
+                sub = mostrar_menu(
+                    "VENTAS",
+                    {
+                        "1": "Agregar producto al carrito",
+                        "2": "Mostrar carrito",
+                        "3": "Confirmar venta",
+                        "4": "Cancelar y volver"
+                    }
+                )
 
                 if sub == "1":
                     carrito = ventas.agregar_al_carrito(inventario_data, carrito)
@@ -95,17 +115,20 @@ def main():
                 else:
                     print("Opción inválida.")
 
-        # ---------------- REPORTES ----------------
+        # ================= REPORTES =================
         elif opcion == "3":
 
             while True:
-                print("\n--- REPORTES ---")
-                print("1. Mostrar Historial")
-                print("2. Ver Detalle de Venta")
-                print("3. Reporte General")
-                print("4. Volver")
 
-                sub = input("Seleccione una opción: ").strip()
+                sub = mostrar_menu(
+                    "REPORTES",
+                    {
+                        "1": "Mostrar Historial",
+                        "2": "Ver Detalle de Venta",
+                        "3": "Reporte General",
+                        "4": "Volver"
+                    }
+                )
 
                 if sub == "1":
                     reportes.mostrar_historial(historial_ventas)
@@ -122,7 +145,7 @@ def main():
                 else:
                     print("Opción inválida.")
 
-        # ---------------- SALIR ----------------
+        # ================= SALIR =================
         elif opcion == "4":
             inventario.guardar_inventario(inventario_data)
             ventas.guardar_historial(historial_ventas)
