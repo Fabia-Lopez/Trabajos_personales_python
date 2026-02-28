@@ -3,22 +3,17 @@ Módulo: inventario.py
 Maneja todas las operaciones relacionadas con productos:
 registrar, editar, eliminar, mostrar, guardar y cargar inventario.
 """
+from producto import Producto
 
-def registrar_producto(inventario, nombre, precio, cantidad, stock):
+def registrar_producto(inventario, nombre, precio, stock):
 
     if nombre in inventario:
         return False, "El producto ya existe."
 
-    if precio < 0 or cantidad < 0 or stock < 0:
-        return False, "Los valores no pueden ser negativos."
-
-    inventario[nombre] = {
-        "precio": precio,
-        "cantidad": cantidad,
-        "stock": stock
-    }
+    inventario[nombre] = Producto(nombre, precio, stock)
 
     return True, "Producto registrado correctamente."
+
 
 def editar_producto(inventario, nombre, precio, cantidad, stock):
 

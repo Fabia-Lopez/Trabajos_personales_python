@@ -4,7 +4,7 @@ Maneja carrito, confirmación de venta, historial y persistencia.
 """
 
 from datetime import datetime
-
+import inventario
 
 def agregar_al_carrito(inventario, carrito, nombre, cantidad):
 
@@ -55,9 +55,9 @@ def confirmar_venta(inventario, carrito):
         return False, 0, "El carrito está vacío."
 
     total = sum(d["precio"] * d["cantidad"] for d in carrito.values())
-
+    
     for nombre, datos in carrito.items():
-        inventario[nombre]["stock"] -= datos["cantidad"]
+        inventario[nombre].reducir_stock(cantidad)
 
     return True, total, "Venta confirmada correctamente."
 
