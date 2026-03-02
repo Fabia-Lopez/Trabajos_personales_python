@@ -1,97 +1,85 @@
 """
 Módulo: inventario.py
-Maneja todas las operaciones relacionadas con productos:
-registrar, editar, eliminar, mostrar, guardar y cargar inventario.
+Clase Inventario orientada a objetos.
 """
+
 from producto import Producto
 
-def registrar_producto(inventario, nombre, precio, stock):
 
-    if nombre in inventario:
-        return False, "El producto ya existe."
+class Inventario:
 
-    inventario[nombre] = Producto(nombre, precio, stock)
+    def __init__(self):
+        self.productos = {}
 
-    return True, "Producto registrado correctamente."
+    def registrar_producto(self, nombre, precio, stock):
 
+        if nombre in self.productos:
+            return False, "El producto ya existe."
 
-def editar_producto(inventario, nombre, precio, cantidad, stock):
+        self.productos[nombre] = Producto(nombre, precio, stock)
+        return True, "Producto registrado correctamente."
 
-    if nombre not in inventario:
-        return False, "Producto no encontrado."
+    def editar_producto(self, nombre, precio, stock):
 
-    if precio < 0 or cantidad < 0 or stock < 0:
-        return False, "Los valores no pueden ser negativos."
+        if nombre not in self.productos:
+            return False, "Producto no encontrado."
 
-    inventario[nombre]["precio"] = precio
-    inventario[nombre]["cantidad"] = cantidad
-    inventario[nombre]["stock"] = stock
+        producto = self.productos[nombre]
+        producto.precio = precio
+        producto.stock = stock
 
-    return True, "Producto actualizado correctamente."
+        return True, "Producto actualizado correctamente."
 
+    def eliminar_producto(self, nombre):
 
-def eliminar_producto(inventario, nombre):
+        if nombre not in self.productos:
+            return False, "Producto no encontrado."
 
-    if nombre not in inventario:
-        return False, "Producto no encontrado."
+        del self.productos[nombre]
+        return True, "Producto eliminado correctamente."
 
-    del inventario[nombre]
-    return True, "Producto eliminado correctamente."
+    def obtener_producto(self, nombre):
+        return self.productos.get(nombre)
 
+    def mostrar_productos(self):
 
-def mostrar_productos(inventario):
-    """Muestra todos los productos del inventario."""
-    
-    if not inventario:
-        print("El inventario está vacío.")
-        return
+        if not self.productos:
+            print("Inventario vacío.")
+            return
 
-    print("\n--- INVENTARIO ---")
-    for nombre, datos in inventario.items():
-        print(
-            f"Nombre: {nombre} | "
-            f"Precio: ${datos['precio']:.2f} | "
-            f"Cantidad: {datos['cantidad']} | "
-            f"Stock: {datos['stock']}"
-        )
+        print("\n--- INVENTARIO ---")
+        for producto in self.productos.values():
+            print(producto.mostrar_info())
 
+    def guardar_inventario(self, filename="inventario.txt"):
 
-def guardar_inventario(inventario, filename="inventario.txt"):
-    """Guarda el inventario en un archivo de texto."""
+        try:
+            with open(filename, "w") as file:
+                for producto in self.productos.values():
+                    file.write(
+                        f"{producto.nombre},{producto.precio},{producto.stock}\n"
+                    )
+            print("Inventario guardado exitosamente.")
+        except Exception as e:
+            print(f"Error al guardar inventario: {e}")
 
-    try:
-        with open(filename, "w") as file:
-            for nombre, datos in inventario.items():
-                file.write(
-                    f"{nombre},{datos['precio']},{datos['cantidad']},{datos['stock']}\n"
-                )
-        print("Inventario guardado exitosamente.")
-    except Exception as e:
-        print(f"Error al guardar inventario: {e}")
+    def cargar_inventario(self, filename="inventario.txt"):
 
+        try:
+            with open(filename, "r") as file:
+                for line in file:
+                    nombre, precio, stock = line.strip().split(",")
 
-def cargar_inventario(filename="inventario.txt"):
-    """Carga el inventario desde un archivo de texto."""
+                    self.productos[nombre] = Producto(
+                        nombre,
+                        float(precio),
+                        int(stock)
+                    )
 
-    inventario = {}
+            print("Inventario cargado exitosamente.")
 
-    try:
-        with open(filename, "r") as file:
-            for line in file:
-                nombre, precio, cantidad, stock = line.strip().split(",")
+        except FileNotFoundError:
+            print("Archivo no encontrado. Se iniciará inventario vacío.")
 
-                inventario[nombre] = {
-                    "precio": float(precio),
-                    "cantidad": int(cantidad),
-                    "stock": int(stock)
-                }
-
-        print("Inventario cargado exitosamente.")
-
-    except FileNotFoundError:
-        print("Archivo no encontrado. Se iniciará inventario vacío.")
-
-    except Exception as e:
-        print(f"Error al cargar inventario: {e}")
-
-    return inventario
+        except Exception as e:
+            print(f"Error al cargar inventario: {e}")

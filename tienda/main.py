@@ -1,9 +1,9 @@
 """
 Módulo principal de la tienda.
-Coordina inventario, ventas y reportes.
+Versión orientada a objetos.
 """
 
-import inventario
+from inventario import Inventario
 import ventas
 import reportes
 
@@ -21,7 +21,9 @@ def mostrar_menu(titulo, opciones):
 
 def main():
 
-    inventario_data = inventario.cargar_inventario()
+    inventario = Inventario()
+    inventario.cargar_inventario()
+
     historial_ventas = ventas.cargar_historial()
     carrito = {}
 
@@ -57,54 +59,40 @@ def main():
                     try:
                         nombre = input("Nombre: ")
                         precio = float(input("Precio: "))
-                        cantidad = int(input("Cantidad: "))
                         stock = int(input("Stock: "))
                     except ValueError:
                         print("Datos inválidos.")
                         continue
 
                     exito, mensaje = inventario.registrar_producto(
-                        inventario_data, nombre, precio, cantidad, stock
+                        nombre, precio, stock
                     )
 
                     print(mensaje)
-
-                    if exito:
-                        inventario.guardar_inventario(inventario_data)
 
                 elif sub == "2":
                     try:
                         nombre = input("Nombre del producto a editar: ")
                         precio = float(input("Nuevo precio: "))
-                        cantidad = int(input("Nueva cantidad: "))
                         stock = int(input("Nuevo stock: "))
                     except ValueError:
                         print("Datos inválidos.")
                         continue
 
-                        exito, mensaje = inventario.editar_producto(
-                            inventario_data, nombre, precio, cantidad, stock
-                        )
-
-                    print(mensaje)
-
-                    if exito:
-                        inventario.guardar_inventario(inventario_data)
-
-                elif sub == "3":
-                    nombre = input("Nombre del producto a eliminar: ")
-
-                    exito, mensaje = inventario.eliminar_producto(
-                        inventario_data, nombre
+                    exito, mensaje = inventario.editar_producto(
+                        nombre, precio, stock
                     )
 
                     print(mensaje)
 
-                    if exito:
-                        inventario.guardar_inventario(inventario_data)
+                elif sub == "3":
+                    nombre = input("Nombre del producto a eliminar: ")
+
+                    exito, mensaje = inventario.eliminar_producto(nombre)
+                    print(mensaje)
 
                 elif sub == "4":
-                    inventario.mostrar_productos(inventario_data)
+                    inventario.mostrar_productos()
 
                 elif sub == "5":
                     break
@@ -136,7 +124,7 @@ def main():
                         continue
 
                     exito, mensaje = ventas.agregar_al_carrito(
-                        inventario_data, carrito, nombre, cantidad
+                        inventario, carrito, nombre, cantidad
                     )
 
                     print(mensaje)
@@ -146,7 +134,7 @@ def main():
 
                 elif sub == "3":
                     exito, total, mensaje = ventas.confirmar_venta(
-                        inventario_data, carrito
+                        inventario, carrito
                     )
 
                     print(mensaje)
@@ -157,7 +145,7 @@ def main():
                         )
 
                         ventas.guardar_historial(historial_ventas)
-                        inventario.guardar_inventario(inventario_data)
+                        inventario.guardar_inventario()
                         carrito.clear()
 
                     break
@@ -201,7 +189,7 @@ def main():
 
         # ================= SALIR =================
         elif opcion == "4":
-            inventario.guardar_inventario(inventario_data)
+            inventario.guardar_inventario()
             ventas.guardar_historial(historial_ventas)
             print("Sistema cerrado correctamente.")
             break
