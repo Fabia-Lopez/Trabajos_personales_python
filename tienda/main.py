@@ -1,9 +1,10 @@
 """
 Módulo principal de la tienda.
-Versión orientada a objetos.
+Versión completamente orientada a objetos.
 """
 
 from inventario import Inventario
+from carrito import Carrito
 import ventas
 import reportes
 
@@ -25,7 +26,7 @@ def main():
     inventario.cargar_inventario()
 
     historial_ventas = ventas.cargar_historial()
-    carrito = {}
+    carrito = Carrito()
 
     while True:
 
@@ -67,7 +68,6 @@ def main():
                     exito, mensaje = inventario.registrar_producto(
                         nombre, precio, stock
                     )
-
                     print(mensaje)
 
                 elif sub == "2":
@@ -82,12 +82,10 @@ def main():
                     exito, mensaje = inventario.editar_producto(
                         nombre, precio, stock
                     )
-
                     print(mensaje)
 
                 elif sub == "3":
                     nombre = input("Nombre del producto a eliminar: ")
-
                     exito, mensaje = inventario.eliminar_producto(nombre)
                     print(mensaje)
 
@@ -123,35 +121,37 @@ def main():
                         print("Cantidad inválida.")
                         continue
 
-                    exito, mensaje = ventas.agregar_al_carrito(
-                        inventario, carrito, nombre, cantidad
-                    )
+                    producto = inventario.obtener_producto(nombre)
 
+                    if not producto:
+                        print("Producto no encontrado.")
+                        continue
+
+                    exito, mensaje = carrito.agregar(producto, cantidad)
                     print(mensaje)
 
                 elif sub == "2":
-                    ventas.mostrar_carrito(carrito)
+                    carrito.mostrar()
 
                 elif sub == "3":
-                    exito, total, mensaje = ventas.confirmar_venta(
-                        inventario, carrito
-                    )
-
+                    exito, total, mensaje = carrito.confirmar()
                     print(mensaje)
 
                     if exito:
                         historial_ventas = ventas.registrar_venta(
-                            historial_ventas, carrito, total
+                            historial_ventas,
+                            carrito.productos,
+                            total
                         )
 
                         ventas.guardar_historial(historial_ventas)
                         inventario.guardar_inventario()
-                        carrito.clear()
+                        carrito.limpiar()
 
                     break
 
                 elif sub == "4":
-                    carrito.clear()
+                    carrito.limpiar()
                     break
 
                 else:

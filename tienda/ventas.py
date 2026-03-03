@@ -57,7 +57,7 @@ def confirmar_venta(inventario, carrito):
     total = sum(d["precio"] * d["cantidad"] for d in carrito.values())
     
     for nombre, datos in carrito.items():
-        inventario[nombre].reducir_stock(cantidad)
+        inventario[nombre]["stock"] -= datos["cantidad"]
 
     return True, total, "Venta confirmada correctamente."
 
