@@ -5,8 +5,8 @@ Versión completamente orientada a objetos.
 
 from inventario import Inventario
 from carrito import Carrito
-import ventas
-import reportes
+from historial import HistorialVentas
+
 
 
 # ----------- FUNCIÓN HELPER PARA MENÚS -----------
@@ -25,8 +25,9 @@ def main():
     inventario = Inventario()
     inventario.cargar_inventario()
 
-    historial_ventas = ventas.cargar_historial()
     carrito = Carrito()
+    historial = HistorialVentas()
+    historial.cargar()
 
     while True:
 
@@ -138,13 +139,8 @@ def main():
                     print(mensaje)
 
                     if exito:
-                        historial_ventas = ventas.registrar_venta(
-                            historial_ventas,
-                            carrito.productos,
-                            total
-                        )
-
-                        ventas.guardar_historial(historial_ventas)
+                        historial.registrar_venta(carrito.productos, total) 
+                        historial.guardar()
                         inventario.guardar_inventario()
                         carrito.limpiar()
 
@@ -167,30 +163,30 @@ def main():
                     {
                         "1": "Mostrar historial",
                         "2": "Ver detalle de venta",
-                        "3": "Reporte general",
-                        "4": "Volver"
+                        "3": "Volver"
                     }
                 )
 
                 if sub == "1":
-                    reportes.mostrar_historial(historial_ventas)
+                    historial.mostrar_historial()
 
                 elif sub == "2":
-                    reportes.ver_venta(historial_ventas)
+                    try:
+                        indice = int(input("Número de la venta a ver: "))
+                        historial.ver_venta(indice)
+                    except ValueError:
+                        print("Índice inválido.")
 
                 elif sub == "3":
-                    reportes.reporte_ventas(historial_ventas)
-
-                elif sub == "4":
                     break
-
                 else:
                     print("Opción inválida.")
 
+
         # ================= SALIR =================
         elif opcion == "4":
-            inventario.guardar_inventario()
-            ventas.guardar_historial(historial_ventas)
+            inventario.guardar_inventario()   
+            historial.guardar()        
             print("Sistema cerrado correctamente.")
             break
 
