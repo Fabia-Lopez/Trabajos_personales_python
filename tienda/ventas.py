@@ -4,7 +4,7 @@ Maneja carrito, confirmación de venta, historial y persistencia.
 """
 
 from datetime import datetime
-import inventario
+import tienda.sistema.inventario as inventario
 
 def agregar_al_carrito(inventario, carrito, nombre, cantidad):
 

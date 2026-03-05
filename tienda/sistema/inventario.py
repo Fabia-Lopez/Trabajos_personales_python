@@ -3,7 +3,7 @@ Módulo: inventario.py
 Clase Inventario orientada a objetos.
 """
 
-from producto import Producto
+from tienda.modelos.producto import Producto
 
 
 class Inventario:
