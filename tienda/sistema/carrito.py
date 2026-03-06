@@ -1,42 +1,48 @@
 class Carrito:
 
     def __init__(self):
-        self.productos = {}
+        self.items = {}
 
-    def agregar_producto(self, producto, cantidad):
+    def agregar_producto(self, inventario, nombre, cantidad):
 
-        if producto.nombre in self.productos:
-            self.productos[producto.nombre]["cantidad"] += cantidad
+        if nombre not in inventario.productos:
+            print("Producto no existe.")
+            return
+
+        producto = inventario.productos[nombre]
+
+        if cantidad > producto.stock:
+            print("No hay suficiente stock.")
+            return
+
+        if nombre in self.items:
+            self.items[nombre]["cantidad"] += cantidad
         else:
-            self.productos[producto.nombre] = {
-                "producto": producto,
+            self.items[nombre] = {
+                "precio": producto.precio,
                 "cantidad": cantidad
             }
 
+        print("Producto agregado al carrito.")
+
     def mostrar_carrito(self):
 
-        if not self.productos:
+        if not self.items:
             print("Carrito vacío")
             return
 
         print("\n--- CARRITO ---")
 
-        for item in self.productos.values():
+        for nombre, datos in self.items.items():
 
-            producto = item["producto"]
-            cantidad = item["cantidad"]
+            subtotal = datos["precio"] * datos["cantidad"]
 
-            print(producto.nombre, cantidad, producto.precio)
+            print(
+                f"{nombre} | "
+                f"Precio: {datos['precio']} | "
+                f"Cantidad: {datos['cantidad']} | "
+                f"Subtotal: {subtotal}"
+            )
 
-    def calcular_total(self):
-
-        total = 0
-
-        for item in self.productos.values():
-
-            producto = item["producto"]
-            cantidad = item["cantidad"]
-
-            total += producto.precio * cantidad
-
-        return total
+    def limpiar(self):
+        self.items.clear()
