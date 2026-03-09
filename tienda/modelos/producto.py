@@ -14,5 +14,22 @@ class Producto:
     def aumentar_stock(self, cantidad):
         self.stock += cantidad
 
+    def to_dict(self):
+        return {
+            "nombre": self.nombre,
+            "precio": self.precio,
+            "stock": self.stock
+        }
+
+
+    @staticmethod
+    def from_dict(data):
+        return Producto(
+            data["nombre"],
+            data["precio"],
+            data["stock"]
+        )
+
+
     def __str__(self):
         return f"{self.nombre} | Precio: ${self.precio:.2f} | Stock: {self.stock}"

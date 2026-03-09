@@ -1,10 +1,12 @@
 from modelos.producto import Producto
+import json
 
 
 class Inventario:
 
     def __init__(self):
         self.productos = {}
+        self.cargar()
 
     def registrar_producto(self, nombre, precio, stock):
 
@@ -12,7 +14,9 @@ class Inventario:
             print("El producto ya existe.")
             return
 
-        self.productos[nombre] = Producto(nombre, precio, stock)
+        producto= Producto(nombre, precio, stock)
+        self.productos.append(producto)
+        self.guardar()
         print("Producto registrado correctamente.")
 
     def eliminar_producto(self, nombre):
@@ -32,8 +36,16 @@ class Inventario:
 
         print("\n--- INVENTARIO ---")
 
+        for i, producto in enumerate(self.productos.values(), 1):
+            print(f"{i}. {producto}")
+
+    def buscar_producto(self, nombre):
+
         for producto in self.productos.values():
-            print(producto)
+
+            if producto.nombre.lower() == nombre.lower():
+                return producto
+        return None
 
     def guardar_inventario(self):
 
@@ -51,22 +63,20 @@ class Inventario:
         except Exception as e:
             print("Error al guardar:", e)
 
-    def cargar_inventario(self):
+    def guardar(self):
+
+        data = [p.to_dict() for p in self.productos.values()]
+        with open("datos/inventario.json", "w") as archivo:
+            json.dump(data, archivo, indent=4)
+
+    def cargar(self):
 
         try:
-            with open("datos/inventario.txt", "r") as archivo:
-
-                for linea in archivo:
-
-                    nombre, precio, stock = linea.strip().split(",")
-
-                    self.productos[nombre] = Producto(
-                        nombre,
-                        float(precio),
-                        int(stock)
-                    )
-
-            print("Inventario cargado.")
-
+            with open("datos/inventario.json", "r") as archivo:
+                data = json.load(archivo)
+            self.productos =[Producto.from_dict(p) for p in data]
         except FileNotFoundError:
-            print("No existe archivo de inventario.")
+            self.productos = []
+        except Exception as e:
+            print("Error al cargar:", e)
+            self.productos = []
