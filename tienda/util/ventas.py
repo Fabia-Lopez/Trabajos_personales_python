@@ -1,33 +1,33 @@
 class Ventas:
 
-    def confirmar_venta(self, inventario, carrito, historial):
+    @staticmethod
+    def realizar_venta(carrito, historial):
 
         if not carrito.items:
-            print("Carrito vacío.")
+            print("El carrito está vacío.")
             return
 
+        productos_vendidos = []
         total = 0
 
-        for nombre, datos in carrito.items.items():
+        for item in carrito.items:
 
-            subtotal = datos["precio"] * datos["cantidad"]
+            subtotal = item["precio"] * item["cantidad"]
             total += subtotal
 
-        print("Total a pagar:", total)
+            productos_vendidos.append({
+                "nombre": item["nombre"],
+                "precio": item["precio"],
+                "cantidad": item["cantidad"]
+            })
 
-        confirmacion = input("Confirmar venta (s/n): ")
+        venta = {
+            "total": total,
+            "productos": productos_vendidos
+        }
 
-        if confirmacion.lower() != "s":
-            print("Venta cancelada.")
-            return
+        historial.registrar_venta(venta)
 
-        for nombre, datos in carrito.items.items():
+        carrito.vaciar()
 
-            producto = inventario.productos[nombre]
-            producto.reducir_stock(datos["cantidad"])
-
-        historial.registrar_venta(carrito)
-
-        carrito.limpiar()
-
-        print("Venta completada.")
+        print("Venta realizada correctamente.")

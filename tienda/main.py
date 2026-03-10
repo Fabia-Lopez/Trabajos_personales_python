@@ -15,7 +15,7 @@ def main():
     ventas = Ventas()
     reportes = Reportes()
 
-    inventario.cargar_inventario()
+    inventario.cargar()
 
     while True:
 
@@ -45,7 +45,7 @@ def main():
                 precio = float(input("Precio: "))
                 stock = int(input("Stock: "))
 
-                inventario.registrar_producto(nombre, precio, stock)
+                inventario.agregar_producto(nombre, precio, stock)
 
             elif op == "2":
 
@@ -69,11 +69,11 @@ def main():
 
         elif opcion == "4":
 
-            ventas.confirmar_venta(inventario, carrito, historial)
+            ventas.realizar_venta(carrito, historial)
 
         elif opcion == "5":
 
-            historial.mostrar_historial()
+            historial.mostrar_ventas()
 
         elif opcion == "6":
 
@@ -81,7 +81,8 @@ def main():
 
         elif opcion == "7":
 
-            inventario.guardar_inventario()
+            inventario.guardar()
+            historial.guardar()
             print("Sistema cerrado.")
             break
 
